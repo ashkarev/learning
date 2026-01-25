@@ -54,7 +54,7 @@ export default function PieChartCard() {
           Showing student activity distribution
         </div>
       </CardFooter>
-        { console.log('hai')}
+        {/* { console.log('hai')} */}
     </Card>
  
   );

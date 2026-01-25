@@ -1,12 +1,19 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis,Pie,PieChart,Cell,Tooltip } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  Pie,
+  PieChart,
+  Cell,
+  Tooltip,
+} from "recharts";
 import { ChartContainer } from "@/components/ui/chart";
 
-
-
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 import {
   Button,
@@ -16,25 +23,98 @@ import {
   ModalHeader,
 } from "flowbite-react";
 
-
 import PieChartCard from "@/Components/ui/PieChart.jsx";
 import PerformanceInsights from "../Components/PerformanceInsight";
 import AchievementInProfile from "../Components/AchievementInProfile";
 import Footer from "../Components/Footer";
-
-
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getUserDetails, updateUser } from "../services/allApi";
+import { authContext } from "../context/AuthContext";
+import { BiObjectsVerticalBottom } from "react-icons/bi";
 
 const StudentProfile = () => {
-
-    const chartData = [
-  { Day: "Mon", time: 1 },
-  { Day: "Tue", time: 2 },
-  { Day: "Sat", time: 1 },
-  { Day: "Thu", time: 3 },
-  { Day: "Fri", time: 2 },
-
-];
+  const [userData, setUserData] = useState({});
+  const chartData = [
+    { Day: "Mon", time: 1 },
+    { Day: "Tue", time: 2 },
+    { Day: "Sat", time: 1 },
+    { Day: "Thu", time: 3 },
+    { Day: "Fri", time: 2 },
+  ];
   const [openModal, setOpenModal] = useState(false);
+
+  const { token } = useContext(authContext);
+  const [editData, setEditData] = useState({
+    userName: "",
+    email: "",
+    phone: "",
+    bio: "",
+    Propic: "",
+  });
+  const [preview, setPreview] = useState(
+    "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80",
+  );
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    setEditData(userData);
+  }, [userData]);
+
+  const getUser = async () => {
+    try {
+      let header = {
+        Authorization: `Bearer ${token}`,
+      };
+      let apires = await getUserDetails(header);
+      console.log(apires.data);
+      if (apires.status == 200) {
+        setUserData(apires.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something happened while getting user Data");
+    }
+  };
+
+  const onImageChange = (e) => {
+    console.log(e.target.files[0]);
+
+    let url = URL.createObjectURL(e.target.files[0]);
+    setEditData({ ...editData, Propic: e.target.files[0] });
+    setPreview(url);
+  };
+  const onSaveProfile = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("userName", editData.userName);
+      formData.append("phone", editData.phone);
+      formData.append("bio", editData.bio);
+
+      if (editData.Propic instanceof File) {
+        formData.append("Propic", editData.Propic);
+      }
+
+      const header = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
+      const apires = await updateUser(editData._id, formData, header);
+
+      if (apires.status === 200) {
+        toast.success("Profile updated");
+        setUserData(apires.data.userDetails);
+        setOpenModal(false);
+      }
+    } catch (error) {
+      toast.error("Profile update failed");
+    }
+  };
+
   return (
     <>
       {/* Top Blue Header */}
@@ -43,6 +123,13 @@ const StudentProfile = () => {
         <p className="text-white/90 font-semibold">
           Track your learning journey and achievements
         </p>
+        <div className="flex justify-end">
+          <div className="w-25 text-center border-0 shadow-2xl rounded-xl ">
+            <Link to={"/"}>
+              <h1 className="text-white  p-1">Back to Home</h1>
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Profile Card */}
@@ -53,26 +140,25 @@ const StudentProfile = () => {
               Welcome Student
             </h1>
 
-            <div className="space-y-2 text-gray-700">
+            <div className="space-y-2 text-blue-500">
               <p>
-                <span className="font-semibold">User Name:</span> Ashkar S
+                <span className="font-semibold text-black">User Name:</span>
+                {userData.userName}
               </p>
-              <p>
-                <span className="font-semibold">Email:</span> student@gmail.com
+              <p className="text-blue-500">
+                <span className="font-semibold text-black">Email:</span>{" "}
+                {userData.email}
               </p>
-              <p>
-                <span className="font-semibold">Phone:</span> 123456789
+              <p className="text-blue-500">
+                <span className="font-semibold text-black">Phone:</span>{" "}
+                {userData.phone}
               </p>
-              <p className="font-semibold">Date of Birth : </p>
-              <p className="font-semibold">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae
-                ducimus quidem nobis aliquam, corrupti veritatis aliquid sunt
-                aut optio quibusdam commodi minus nisi nesciunt! Inventore ab
-                nam explicabo consequuntur aperiam.
+              <p className="font-semibold ">
+                <span className="text-black">BIO: {userData.bio}</span>
               </p>
 
               <p>
-                <span className="font-semibold">Joined on:</span>{" "}
+                <span className="font-semibold text-black">Joined on:</span>{" "}
                 <span className="text-sky-500 font-semibold">Jan 1</span>
               </p>
             </div>
@@ -87,8 +173,8 @@ const StudentProfile = () => {
 
           <div className="flex justify-center ">
             <img
-              className="w-64 h-64 object-fill rounded-2xl shadow-md "
-              src="https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg"
+              className="w-64 h-64 object-fill rounded-2xl shadow-md"
+              src={preview}
               alt="profile"
             />
           </div>
@@ -96,29 +182,43 @@ const StudentProfile = () => {
       </div>
       <Modal className="" show={openModal} onClose={() => setOpenModal(false)}>
         <div className="bg-white w-120 ">
-          <ModalHeader>
-            <h1 className="text-3xl font-bold text-blue-500 text-center">
-              Edit Profile
-            </h1>
+          <ModalHeader className="text-3xl font-bold text-blue-500 text-center bg-blue-600 ">
+            Edit Profile
           </ModalHeader>
           <ModalBody>
             <div className="space-y-6">
               <input
+                onChange={(e) =>
+                  setEditData({ ...editData, userName: e.target.value })
+                }
+                value={editData.userName}
                 className="w-100 p-2  rounded-xl border-gray-200 shadow-2xs hover:border-blue-500"
                 type="text"
                 placeholder="your Name"
               />
               <input
+                onChange={(e) =>
+                  setEditData({ ...editData, email: e.target.value })
+                }
+                value={editData.email}
                 className="w-100 p-2  rounded-xl border-gray-200 shadow-2xs hover:border-blue-500"
                 type="text"
                 placeholder="your email"
               />
               <input
+                onChange={(e) =>
+                  setEditData({ ...editData, phone: e.target.value })
+                }
+                value={editData.phone}
                 className="w-100 p-2  rounded-xl border-gray-200 shadow-2xs hover:border-blue-500"
                 type="text"
                 placeholder="your Phone"
               />
               <textarea
+                onChange={(e) =>
+                  setEditData({ ...editData, bio: e.target.value })
+                }
+                value={editData.bio}
                 className="w-100 p-2  rounded-xl border-gray-200 shadow-2xs hover:border-blue-500"
                 placeholder="bio"
                 name=""
@@ -129,12 +229,18 @@ const StudentProfile = () => {
                 type="date"
                 placeholder="DOB"
               />
-              <input className="hidden" type="file" name="" id="one" />
+
+              <input
+                className="hidden"
+                type="file"
+                name=""
+                id="one"
+                onChange={(e) => onImageChange(e)}
+              />
               <label htmlFor="one">
                 <img
                   className=" h-30 object-fill rounded-2xl shadow-md "
-                  src="https://static.vecteezy.com/system/resources/previews/042/332/098/non_2x/default-avatar-profile-icon-grey-photo-placeholder-female-no-photo-images-for-unfilled-user-profile-greyscale-illustration-for-socail-media-web-vector.jpg"
-                  alt="profile"
+                  src={preview}
                   id="one"
                 />
               </label>
@@ -143,7 +249,7 @@ const StudentProfile = () => {
           <ModalFooter>
             <Button
               className="border border-gray-300 rounded-2xl text-white bg-blue-500 hover:bg-sky-400"
-              onClick={() => setOpenModal(false)}
+              onClick={onSaveProfile}
             >
               Save changes
             </Button>
@@ -157,62 +263,54 @@ const StudentProfile = () => {
         </div>
       </Modal>
 
-
       {/* chart */}
       <div className="bg-sky-50">
         <div className="border-0 grid grid-cols-2  mx-18">
+          <ChartContainer className="">
+            <div className="my-10">
+              <h2 className="text-2xl font-bold text-blue-500">
+                Study Activity
+              </h2>
+              <p className="text-sm text-gray-500"></p>
+            </div>
 
-        <ChartContainer className="">
-  <div className="my-10">
-    <h2 className="text-2xl font-bold text-blue-500">Study Activity</h2>
-    <p className="text-sm text-gray-500"></p>
-  </div>
+            <BarChart width={500} height={280} data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="Day" />
+              <Bar dataKey="time" fill="#3b82f6" radius={8} />
+            </BarChart>
 
-  <BarChart width={500} height={280} data={chartData}>
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="Day" />
-    <Bar dataKey="time" fill="#3b82f6" radius={8} />
-  </BarChart>
+            <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              this Month
+            </div>
+          </ChartContainer>
 
-  <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
-    <TrendingUp className="h-4 w-4 text-green-500" />
-    this Month
-  </div>
-</ChartContainer>
-
-
-<div className="my-10">
-    <PieChartCard />
-</div>
-
-
-
-
+          <div className="my-10">
+            <PieChartCard />
+          </div>
+        </div>
       </div>
-      </div>
-      
+
       {/* performance */}
 
       <div className="my-20">
-          <h1 className="text-3xl text-center text-blue-500 font-bold ">
+        <h1 className="text-3xl text-center text-blue-500 font-bold ">
           Performance Insights
         </h1>
         <PerformanceInsights />
-
       </div>
 
       {/* acheivenment */}
-  <div className="bg-sky-50">
-     <div className="mx-30  ">
-         <h1 className="text-4xl text-center text-blue-500 font-bold my-auto ">
-         Certification
-        </h1>
-        <AchievementInProfile />
-
+      <div className="bg-sky-50">
+        <div className="mx-30  ">
+          <h1 className="text-4xl text-center text-blue-500 font-bold my-auto ">
+            Certification
+          </h1>
+          <AchievementInProfile />
+        </div>
       </div>
-  </div>
-  <Footer />
-     
+      <Footer />
     </>
   );
 };

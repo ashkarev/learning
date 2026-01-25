@@ -1,103 +1,188 @@
 import { GoogleLogin } from "@react-oauth/google";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { googleApi, loginApi, registerApi } from "../services/allApi";
+import { authContext } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
-const Auth = ({insideRegister}) => {
+const Auth = ({ insideRegister }) => {
 
+  const token=useContext(authContext)
   
+
+  // const saveToken=useContext(authContext)
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    userName: "",
+    email: "",
+    password: "",
+  });
+  
+
+
+  const onRegisterClick = async () => {
+    try {
+      if (
+        userData.userName == "" ||
+        userData.email == "" ||
+        userData.password == ""
+      ) {
+        toast.error("Please Fill the form to continue");
+      } else {
+        let apires = await registerApi(userData);
+        // console.log(apires)
+        if (apires.status == 201) {
+          toast.success("Successfully Registered");
+          navigate("/login");
+        } else {
+          console.log(apires);
+          toast.error(apires.response.data.message);
+        }
+      }
+    } catch (error) {
+      console.log(apires);
+      toast.error("something went wrong");
+    }
+  };
+
+  const onLoginClick = async () => {
+    try {
+      let reqBody = {
+        email: userData.email,
+        password: userData.password,
+      };
+      let apires = await loginApi(reqBody);
+      // console.log(apires)
+      if (apires.status == 200) {
+        toast.success("successfully Login");
+            localStorage.setItem("token", apires.data.token);
+
+        navigate("/");
+      } else {
+        toast.error(apires.response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong");
+    }
+  };
+
+  const googleClick=async(credentials)=>{
+   console.log(credentials)
+
+   let decodeData=jwtDecode(credentials.credential)
+   console.log(decodeData)
+     let payload = {
+      userName: decodeData.name,
+      email: decodeData.email,
+      proPic: decodeData.picture,
+    };
+    let apires = await googleApi(payload);
+    console.log(apires);
+
+    if (apires.status == 200 || apires.status == 201) {
+      toast.success(apires.data.message);
+      localStorage.setItem("token", apires.data.token);
+        // saveToken(apires.data.token)
+
+      navigate("/"); // or "/dashboard"
+
+    } else {
+      toast.error(apires.response.data.message);
+    }
+
+   
+  }
+
   return (
     <>
-    <section className="min-h-screen bg-sky-50  justify-center items-center grid grid-cols-2">
-      <h1 className=" text-6xl text-blue-500 font-bold text-center ">Blink Tutors</h1>
-       <div className="bg-white border border-gray-200 shadow-xl rounded-xl p-10  w-[450px]">
-        
+      <section className="min-h-screen bg-sky-50  justify-center items-center grid grid-cols-2">
+        <h1 className=" text-6xl text-blue-500 font-bold text-center ">
+          Blink Tutors
+        </h1>
+        <div className="bg-white border border-gray-200 shadow-xl rounded-xl p-10  w-[450px]">
           <div className="flex flex-col items-center  ">
             <h1 className="text-3xl text-blue-500 font-bold my-2">
-              {
-                insideRegister? "Register": "Login"
-              }
-              
+              {insideRegister ? "Register" : "Login"}
             </h1>
-            {
-              insideRegister&&(
- <input
-              type="text"
-              placeholder="Enter UserName"
-              className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
-            />
-              )
-            }
-          
+            {insideRegister && (
+              <input
+                onChange={(e) =>
+                  setUserData({ ...userData, userName: e.target.value })
+                }
+                type="text"
+                placeholder="Enter UserName"
+                className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
+              />
+            )}
+
             <input
+              onChange={(e) =>
+                setUserData({ ...userData, email: e.target.value })
+              }
               type="text"
               placeholder="Enter Your Email"
               className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
             />
             <input
+              onChange={(e) =>
+                setUserData({ ...userData, password: e.target.value })
+              }
               type="password"
               placeholder="password"
               className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
             />
 
-            {
-              insideRegister ? (
-                  <button className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500">
-              Log In
-            </button>) :(
-                <button className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500">
-              Sign Up
-            </button>
-            )
-              
-            }
-
-            
+            {insideRegister ? (
+              <button
+                onClick={onRegisterClick}
+                className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
+              >
+                Register
+              </button>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
+              >
+                Login
+              </button>
+            )}
 
             <GoogleLogin
-            
+            onSuccess={(credentialresponse)=>{
+              googleClick(credentialresponse)
+            }}
               theme="outline"
               shape="circle"
               size="large"
             ></GoogleLogin>
-            <hr className="w-100 my-2"/>
+            <hr className="w-100 my-2" />
 
             <span className="my-2">Forget Password ?</span>
 
-            {
-              insideRegister ?(
-                <div className="text-center">
-                  <h1 className="text-2xl text-blue-500">Already a user</h1>
-                   <Link to={'/login'}>
-                   <p className="  ">
-                    Login
-                   </p>
-                    </Link>
-                </div>
-               
-              ):(
-                
-                 <div className="text-center">
-                 
-                  
-                  <h1 className=" text-2xl text-blue-500 ">New User</h1>
-                   <Link to={'/register'}> 
-                   <p>
-                    Register
-                    </p>
-                    </Link>
-                </div>
-
-              )
-            }
+            {insideRegister ? (
+              <div className="text-center">
+                <h1 className="text-2xl text-blue-500">Already a user</h1>
+                <Link to={"/login"}>
+                  <p className="  ">Login</p>
+                </Link>
+              </div>
+            ) : (
+              <div className="text-center">
+                <h1 className=" text-2xl text-blue-500 ">New User</h1>
+                <Link to={"/register"}>
+                  <p>Register</p>
+                </Link>
+              </div>
+            )}
           </div>
-          <Link to={'/'}>
-          <button className="text-sky-500"> Back to home</button>
-          
+          <Link to={"/"}>
+            <button className="text-sky-500"> Back to home</button>
           </Link>
         </div>
-   
-    </section>
-     
+      </section>
     </>
   );
 };
