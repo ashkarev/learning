@@ -1,21 +1,95 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { addJobApi, deleteJobApi, getAllJobsApi } from '../services/allApi';
+import { toast } from 'react-toastify';
+import { Trash2 } from 'lucide-react';
 
 const AdminCareers = () => {
-    const [jobs, setJobs] = useState([
-        { id: 1, title: 'Frontend Developer', type: 'Full-time', location: 'Remote', status: 'Open' },
-        { id: 2, title: 'Backend Developer', type: 'Full-time', location: 'New York', status: 'Closed' },
-        { id: 3, title: 'UI/UX Designer', type: 'Contract', location: 'London', status: 'Open' },
-    ]);
-
+    const [jobs, setJobs] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newJob, setNewJob] = useState({ title: '', type: 'Full-time', location: '', status: 'Open' });
 
-    const handleAddJob = () => {
-        setJobs([...jobs, { ...newJob, id: jobs.length + 1 }]);
-        setIsModalOpen(false);
-        setNewJob({ title: '', type: 'Full-time', location: '', status: 'Open' });
+    const getJobs = async () => {
+        try {
+            const apiRes = await getAllJobsApi();
+            if (apiRes.status === 200) {
+                setJobs(apiRes.data);
+            } else {
+                console.log(apiRes);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getJobs();
+    }, []);
+
+    const handleAddJob = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.warning("Please login first");
+            return;
+        }
+
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        };
+
+        if (!newJob.title || !newJob.location) {
+            toast.warning("Please fill in all required fields (Title, Location)");
+            return;
+        }
+
+        try {
+            const apiRes = await addJobApi(newJob, reqHeader);
+            if (apiRes.status === 200 || apiRes.status === 201) {
+                toast.success("Job added successfully");
+                getJobs();
+                setIsModalOpen(false);
+                setNewJob({ title: '', type: 'Full-time', location: '', status: 'Open' });
+            } else {
+                if (apiRes.response && apiRes.response.data) {
+                    toast.error(apiRes.response.data.message);
+                } else {
+                    toast.error("Failed to add job");
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong");
+        }
     };
+
+    const handleDeleteJob = async (id) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.warning("Please login first");
+            return;
+        }
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        };
+
+        if (window.confirm("Are you sure you want to delete this job?")) {
+            try {
+                const apiRes = await deleteJobApi(id, reqHeader);
+                if (apiRes.status === 200) {
+                    toast.success("Job deleted successfully");
+                    getJobs();
+                } else {
+                    if (apiRes.response && apiRes.response.data) {
+                        toast.error(apiRes.response.data.message);
+                    } else {
+                        toast.error("Failed to delete job");
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                toast.error("Error deleting job");
+            }
+        }
+    }
 
     return (
         <div>
@@ -36,16 +110,28 @@ const AdminCareers = () => {
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {jobs.map((job) => (
-                            <tr key={job.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.type}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.location}</td>
+                        {jobs.length > 0 ? (
+                            jobs.map((job) => (
+                                <tr key={job._id || job.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.title}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.type}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.location}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <button onClick={() => handleDeleteJob(job._id || job.id)} className="text-red-500 hover:text-red-700">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="px-6 py-4 text-center text-sm text-gray-500">No jobs found</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>

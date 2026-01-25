@@ -8,8 +8,8 @@ import { jwtDecode } from "jwt-decode";
 
 const Auth = ({ insideRegister }) => {
 
-  const token=useContext(authContext)
-  
+  const { saveToken } = useContext(authContext);
+
 
   // const saveToken=useContext(authContext)
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Auth = ({ insideRegister }) => {
     email: "",
     password: "",
   });
-  
+
 
 
   const onRegisterClick = async () => {
@@ -37,7 +37,11 @@ const Auth = ({ insideRegister }) => {
           navigate("/login");
         } else {
           console.log(apires);
-          toast.error(apires.response.data.message);
+          if (apires.response && apires.response.data) {
+            toast.error(apires.response.data.message);
+          } else {
+            toast.error("Registration failed");
+          }
         }
       }
     } catch (error) {
@@ -56,11 +60,25 @@ const Auth = ({ insideRegister }) => {
       // console.log(apires)
       if (apires.status == 200) {
         toast.success("successfully Login");
-            localStorage.setItem("token", apires.data.token);
+        saveToken(apires.data.token);
+        localStorage.setItem("user", JSON.stringify(apires.data.existingUser));
 
-        navigate("/");
+        try {
+          const decoded = jwtDecode(apires.data.token);
+          if (decoded.role && decoded.role.toLowerCase() === "admin") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        } catch (error) {
+          navigate("/");
+        }
       } else {
-        toast.error(apires.response.data.message);
+        if (apires.response && apires.response.data) {
+          toast.error(apires.response.data.message);
+        } else {
+          toast.error("Login failed");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -68,12 +86,12 @@ const Auth = ({ insideRegister }) => {
     }
   };
 
-  const googleClick=async(credentials)=>{
-   console.log(credentials)
+  const googleClick = async (credentials) => {
+    console.log(credentials)
 
-   let decodeData=jwtDecode(credentials.credential)
-   console.log(decodeData)
-     let payload = {
+    let decodeData = jwtDecode(credentials.credential)
+    console.log(decodeData)
+    let payload = {
       userName: decodeData.name,
       email: decodeData.email,
       proPic: decodeData.picture,
@@ -83,16 +101,25 @@ const Auth = ({ insideRegister }) => {
 
     if (apires.status == 200 || apires.status == 201) {
       toast.success(apires.data.message);
-      localStorage.setItem("token", apires.data.token);
-        // saveToken(apires.data.token)
+      saveToken(apires.data.token);
+      // saveToken(apires.data.token)
 
-      navigate("/"); // or "/dashboard"
+      try {
+        const decoded = jwtDecode(apires.data.token);
+        if (decoded.role && decoded.role.toLowerCase() === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        navigate("/");
+      }
 
     } else {
       toast.error(apires.response.data.message);
     }
 
-   
+
   }
 
   return (
@@ -151,9 +178,9 @@ const Auth = ({ insideRegister }) => {
             )}
 
             <GoogleLogin
-            onSuccess={(credentialresponse)=>{
-              googleClick(credentialresponse)
-            }}
+              onSuccess={(credentialresponse) => {
+                googleClick(credentialresponse)
+              }}
               theme="outline"
               shape="circle"
               size="large"

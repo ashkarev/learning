@@ -1,22 +1,97 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { addCourseApi, deleteCourseApi, getAllCoursesApi } from '../services/allApi';
+import { toast } from 'react-toastify';
+import { Trash2 } from 'lucide-react';
 
 const Courses = () => {
-    // Placeholder data
-    const [courses, setCourses] = useState([
-        { id: 1, title: 'React for Beginners', instructor: 'John Doe', students: 120, price: '$49' },
-        { id: 2, title: 'Advanced NodeJS', instructor: 'Jane Smith', students: 85, price: '$79' },
-        { id: 3, title: 'UI/UX Design Masterclass', instructor: 'Mike Ross', students: 200, price: '$99' },
-    ]);
-
+    const [courses, setCourses] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newCourse, setNewCourse] = useState({ title: '', instructor: '', price: '' });
 
-    const handleAddCourse = () => {
-        setCourses([...courses, { ...newCourse, id: courses.length + 1, students: 0 }]);
-        setIsModalOpen(false);
-        setNewCourse({ title: '', instructor: '', price: '' });
+    const getCourses = async () => {
+        try {
+            const apiRes = await getAllCoursesApi();
+            if (apiRes.status === 200) {
+                setCourses(apiRes.data);
+            } else {
+                if (apiRes.response && apiRes.response.data) {
+                    toast.error(apiRes.response.data.message);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getCourses();
+    }, []);
+
+    const handleAddCourse = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.warning("Please login first");
+            return;
+        }
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        };
+
+        if (!newCourse.title || !newCourse.instructor || !newCourse.price) {
+            toast.warning("Please fill in all fields");
+            return;
+        }
+
+        try {
+            // Assuming API expects students count or defaults it, sending body
+            const apiRes = await addCourseApi({ ...newCourse, students: 0 }, reqHeader);
+            if (apiRes.status === 200 || apiRes.status === 201) {
+                toast.success("Course added successfully");
+                getCourses();
+                setIsModalOpen(false);
+                setNewCourse({ title: '', instructor: '', price: '' });
+            } else {
+                if (apiRes.response && apiRes.response.data) {
+                    toast.error(apiRes.response.data.message);
+                } else {
+                    toast.error("Failed to add course");
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Something went wrong");
+        }
     };
+
+    const handleDeleteCourse = async (id) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.warning("Please login first");
+            return;
+        }
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        };
+
+        if (window.confirm("Are you sure you want to delete this course?")) {
+            try {
+                const apiRes = await deleteCourseApi(id, reqHeader);
+                if (apiRes.status === 200) {
+                    toast.success("Course deleted successfully");
+                    getCourses();
+                } else {
+                    if (apiRes.response && apiRes.response.data) {
+                        toast.error(apiRes.response.data.message);
+                    } else {
+                        toast.error("Failed to delete course");
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                toast.error("Error deleting course");
+            }
+        }
+    }
 
     return (
         <div>
@@ -38,17 +113,29 @@ const Courses = () => {
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {courses.map((course) => (
-                            <tr key={course.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{course.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.instructor}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.students}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.price}</td>
+                        {courses.length > 0 ? (
+                            courses.map((course) => (
+                                <tr key={course.id || course._id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{course.title}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.instructor}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.students || 0}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{course.price}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <button onClick={() => handleDeleteCourse(course.id || course._id)} className="text-red-500 hover:text-red-700">
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">No courses found</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>

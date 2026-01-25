@@ -11,6 +11,7 @@ const Sidebar = () => {
         { name: 'Users', href: 'users', icon: Users },
         { name: 'Courses', href: 'courses', icon: BookOpen },
         { name: 'Careers', href: 'careers', icon: Briefcase },
+        { name: 'Applications', href: 'applications', icon: Briefcase }, // Reuse Briefcase or use FileText if imported
     ];
 
     return (

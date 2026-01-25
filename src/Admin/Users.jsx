@@ -1,13 +1,46 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAllUsersApi } from '../services/allApi';
+import { toast } from 'react-toastify';
 
 const Users = () => {
-    // Placeholder data 
-    const users = [
-        { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Student', status: 'Active' },
-        { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Instructor', status: 'Active' },
-        { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'Student', status: 'Inactive' },
-    ];
+    const [users, setUsers] = useState([]);
+
+    const getUsers = async () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const reqHeader = {
+                "Authorization": `Bearer ${token}`
+            };
+            try {
+                const apiRes = await getAllUsersApi(reqHeader);
+                if (apiRes.status === 200) {
+                    setUsers(apiRes.data);
+                } else {
+                    if (apiRes.response && apiRes.response.data) {
+                        toast.error(apiRes.response.data.message);
+                    } else {
+                        toast.error("Failed to fetch users");
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                toast.error("Something went wrong while fetching users");
+            }
+        } else {
+            toast.warning("Please login first");
+        }
+    }; // Corrected closing brace for getUsers
+
+    useEffect(() => {
+        getUsers();
+    }, []);
+
+    // Helper function to render valid table cell content
+    const renderCell = (content) => {
+        if (content === null || content === undefined) return '';
+        if (typeof content === 'object') return JSON.stringify(content);
+        return content;
+    };
 
     return (
         <div>
@@ -16,23 +49,29 @@ const Users = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {users.map((user) => (
-                            <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
+                        {users.length > 0 ? (
+                            users.map((user, index) => (
+                                <tr key={user._id || index} className="hover:bg-gray-50 transition-colors">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{renderCell(user.username)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{renderCell(user.email)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{renderCell(user.role)}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="px-6 py-4 text-center text-sm text-gray-500">No users found</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
-        </div >
+        </div>
     );
 };
 

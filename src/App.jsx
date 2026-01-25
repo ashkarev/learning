@@ -8,6 +8,8 @@ import Contact from './Pages/Contact'
 import Courses from './Pages/Courses'
 import InstructorCard from './Components/InstructorCard'
 import StudentProfile from './Pages/StudentProfile'
+import Careers from './Pages/Careers'
+
 import { Flip, ToastContainer } from 'react-toastify'
 import AdminLayout from './Admin/AdminLayout'
 import AdminHome from './Admin/AdminHome'
@@ -15,6 +17,7 @@ import UsersPage from './Admin/Users'
 import CoursesPage from './Admin/Courses'
 import AdminCareers from './Admin/AdminCareers'
 
+import AdminApplications from './Admin/AdminApplications'
 
 function App() {
 
@@ -31,7 +34,9 @@ function App() {
         <Route path='/course' element={<Courses />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/instructorCard' element={<InstructorCard />} />
+
         <Route path='/studentProfile' element={<StudentProfile />} />
+        <Route path='/careers' element={<Careers />} />
 
 
         <Route path='/admin' element={<AdminLayout />}>
@@ -39,6 +44,7 @@ function App() {
           <Route path='users' element={<UsersPage />} />
           <Route path='courses' element={<CoursesPage />} />
           <Route path='careers' element={<AdminCareers />} />
+          <Route path='applications' element={<AdminApplications />} />
         </Route>
       </Routes>
       <ToastContainer

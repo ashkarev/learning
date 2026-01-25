@@ -1,14 +1,44 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users, BookOpen, DollarSign, TrendingUp } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { getAllCoursesApi, getAllUsersApi } from '../services/allApi';
 
 const AdminHome = () => {
+    const [userCount, setUserCount] = useState(0);
+    const [courseCount, setCourseCount] = useState(0);
+
+    const fetchData = async () => {
+        const token = localStorage.getItem("token");
+        const reqHeader = token ? { "Authorization": `Bearer ${token}` } : {};
+
+        try {
+            const userRes = await getAllUsersApi(reqHeader);
+            if (userRes.status === 200) {
+                setUserCount(userRes.data.length);
+            }
+        } catch (error) {
+            console.error("Error fetching users for dashboard", error);
+        }
+
+        try {
+            const courseRes = await getAllCoursesApi(reqHeader);
+            if (courseRes.status === 200) {
+                setCourseCount(courseRes.data.length);
+            }
+        } catch (error) {
+            console.error("Error fetching courses for dashboard", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     const stats = [
-        { name: 'Total Users', value: '1,234', icon: Users, change: '+12%', changeType: 'positive' },
-        { name: 'Active Courses', value: '45', icon: BookOpen, change: '+5%', changeType: 'positive' },
-        { name: 'Total Revenue', value: '$12,345', icon: DollarSign, change: '+18%', changeType: 'positive' },
-        { name: 'Growth', value: '24%', icon: TrendingUp, change: '+2%', changeType: 'positive' },
+        { name: 'Total Users', value: userCount, icon: Users, change: '+12%', changeType: 'positive' },
+        { name: 'Active Courses', value: courseCount, icon: BookOpen, change: '+5%', changeType: 'positive' },
+        { name: 'Total Revenue', value: '$0', icon: DollarSign, change: '+0%', changeType: 'neutral' }, // Placeholder
+        { name: 'Growth', value: '0%', icon: TrendingUp, change: '+0%', changeType: 'neutral' }, // Placeholder
     ];
 
     const data = [

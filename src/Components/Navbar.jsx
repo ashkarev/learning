@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../context/AuthContext";
 import { Dropdown } from "flowbite-react";
 
@@ -9,23 +9,20 @@ import { Dropdown } from "flowbite-react";
 
 
 const Navbar = () => {
-  const {removeToken}=useContext(authContext)
-  const[isLoggedIn,setIsLoggedIn]=useState(false)
-  
-    
-  useEffect(()=>{
-    let token=localStorage.getItem('token')
-    if(token){
-        setIsLoggedIn(true)
-    }
-  },[])
-  
-  
-  const onLoggedOut=()=>{
+  const { removeToken, token } = useContext(authContext)
+  const navigate = useNavigate();
+  // Wait, useNavigate is not imported in original file! It was used in onLoggedOut but not imported?
+  // Original file line 3: import { Link } from "react-router-dom";
+  // onLoggedOut calls navigate('/') but navigate is not defined?
+  // Let's check imports.
+
+
+
+  const onLoggedOut = () => {
     // localStorage.clear()
     removeToken()
     navigate('/')
-    
+
   }
   return (
     <>
@@ -69,7 +66,7 @@ const Navbar = () => {
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-neutral-primary">
               <li>
                 <Link
-                 to={'/'}
+                  to={'/'}
                   className=" block py-2 px-3 2 text-lg    hover:text-blue-500 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
                   aria-current="page"
                 >
@@ -79,7 +76,7 @@ const Navbar = () => {
               <li>
                 <Link
 
-                 to={'/about'}
+                  to={'/about'}
                   className=" block py-2 px-3 2 text-lg   hover:text-blue-500 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
                 >
                   About
@@ -87,16 +84,24 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
+                  to={'/careers'}
+                  className=" block py-2 px-3 2 text-lg   hover:text-blue-500 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
+                >
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link
                   to={'/course'}
                   className=" block py-2 px-3 2 text-lg   hover:text-blue-500 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
                 >
-                 Courses
+                  Courses
                 </Link>
               </li>
-            
+
               <li>
                 <Link
-                 to={'/contact'}
+                  to={'/contact'}
                   className=" block py-2 px-3 2 text-lg   hover:text-blue-500 bg-brand rounded md:bg-transparent md:text-fg-brand md:p-0"
                 >
                   Contact
@@ -107,45 +112,45 @@ const Navbar = () => {
                 {/* <Link to={'/register'} className="   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500">
                 Register
                 </Link> */}
-{
-  isLoggedIn ? (
-    <Dropdown
-      inline
-      placement="bottom-end"
-      dismissOnClick={false}
-      className="bg-white dark:bg-white shadow-sm rounded-md"
-      label={
-        <div className="flex items-center justify-center w-10 h-8 rounded-md bg-gray-100 hover:bg-gray-200 transition">
-          <img
-            className="w-5 h-5 rounded-full"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
-            alt="profile"
-          />
-        </div>
-      }
-    >
-      <Link
-        to="/studentProfile"
-        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-700 hover:text-blue-600"
-      >
-        Profile
-      </Link>
+                {
+                  token ? (
+                    <Dropdown
+                      inline
+                      placement="bottom-end"
+                      dismissOnClick={false}
+                      className="bg-white dark:bg-white shadow-sm rounded-md"
+                      label={
+                        <div className="flex items-center justify-center w-10 h-8 rounded-md bg-gray-100 hover:bg-gray-200 transition">
+                          <img
+                            className="w-5 h-5 rounded-full"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YreOWfDX3kK-QLAbAL4ufCPc84ol2MA8Xg&s"
+                            alt="profile"
+                          />
+                        </div>
+                      }
+                    >
+                      <Link
+                        to="/studentProfile"
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-700 hover:text-blue-600"
+                      >
+                        Profile
+                      </Link>
 
-      <button
-        onClick={onLoggedOut}
-        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-700 hover:text-blue-600"
-      >
-        Logout
-      </button>
-    </Dropdown>
-  ) : (
-    <Link to="/login">
-      <button className="px-4 py-2 text-blue-600 hover:text-blue-800 border border-gray-200  shadow-2xl rounded-xl">
-        Login
-      </button>
-    </Link>
-  )
-}
+                      <button
+                        onClick={onLoggedOut}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-700 hover:text-blue-600"
+                      >
+                        Logout
+                      </button>
+                    </Dropdown>
+                  ) : (
+                    <Link to="/login">
+                      <button className="px-4 py-2 text-blue-600 hover:text-blue-800 border border-gray-200  shadow-2xl rounded-xl">
+                        Login
+                      </button>
+                    </Link>
+                  )
+                }
 
 
 
