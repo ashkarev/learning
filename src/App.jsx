@@ -9,6 +9,8 @@ import Courses from './Pages/Courses'
 import InstructorCard from './Components/InstructorCard'
 import StudentProfile from './Pages/StudentProfile'
 import Careers from './Pages/Careers'
+import CourseDetail from './Pages/CourseDetail'
+
 
 import { Flip, ToastContainer } from 'react-toastify'
 import AdminLayout from './Admin/AdminLayout'
@@ -32,6 +34,7 @@ function App() {
         <Route path='/about' element={<About />} />
 
         <Route path='/course' element={<Courses />} />
+        <Route path='/course-detail' element={<CourseDetail />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/instructorCard' element={<InstructorCard />} />
 

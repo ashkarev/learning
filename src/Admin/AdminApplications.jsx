@@ -66,11 +66,7 @@ const AdminApplications = () => {
         }
     };
 
-    const renderCell = (content) => {
-        if (content === null || content === undefined) return '';
-        if (typeof content === 'object') return JSON.stringify(content); // Fallback for objects
-        return content;
-    };
+
 
     return (
         <div>
@@ -93,16 +89,16 @@ const AdminApplications = () => {
                                 <tr key={app._id || index} className="hover:bg-gray-50 transition-colors">
                                     {/* Adjust fields based on actual API response structure. Assuming common fields here. */}
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {renderCell(app.name || app.applicantName || app.studentId?.username)}
+                                        {app.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {renderCell(app.email || app.applicantEmail || app.studentId?.email)}
+                                        {app.email}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {renderCell(app.jobTitle || app.jobId?.title || "N/A")}
+                                        {app.jobTitle}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {renderCell(app.status || "Applied")}
+                                        Applied
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <button onClick={() => handleDelete(app._id || app.id)} className="text-red-500 hover:text-red-700">

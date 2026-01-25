@@ -3,7 +3,7 @@ import Navbar from "../Components/Navbar";
 import { FaStar } from "react-icons/fa";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import courseBg from "../assets/courseBG.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import web from "../assets/web.jpg";
 import py from "../assets/py.png";
 import ui from "../assets/ui.jpg";
@@ -18,6 +18,8 @@ import cyb from "../assets/cyb.jpeg";
 import Footer from "../Components/Footer";
 
 const Courses = () => {
+  const navigate = useNavigate();
+
   const courseCard = [
     {
       title: "Data Science & Machine Learning A-Z",
@@ -25,6 +27,7 @@ const Courses = () => {
       hours: "36 hours",
       price: "₹ 100",
       img: `${ml}`,
+      videoId: "X3paOmcrTjQ" // Sample DS video
     },
     {
       title: "UI/UX Design Masterclass",
@@ -32,6 +35,7 @@ const Courses = () => {
       hours: "24 hours",
       price: "₹ 100",
       img: `${ui}`,
+      videoId: "c9Wg6Cb_YlU" // Sample UI/UX video
     },
     {
       title: "React & Next.js — The Complete Guide",
@@ -39,6 +43,7 @@ const Courses = () => {
       hours: "42 hours",
       price: "₹ 100",
       img: `${react}`,
+      videoId: "SqcY0GlETPk" // React Tutorial
     },
     {
       title: "Full-Stack Web Development Bootcamp",
@@ -46,6 +51,7 @@ const Courses = () => {
       hours: "48 hours",
       price: "₹ 100",
       img: `${web}`,
+      videoId: "nu_pCVPKzTk" // Full Stack
     },
     {
       title: "Python for Beginners to Advanced",
@@ -53,6 +59,7 @@ const Courses = () => {
       hours: "30 hours",
       price: "₹ 100",
       img: `${py}`,
+      videoId: "_uQrJ0TkZlc" // Python
     },
     {
       title: "Cybersecurity & Ethical Hacking",
@@ -60,8 +67,14 @@ const Courses = () => {
       hours: "32 hours",
       price: "₹ 100",
       img: `${cyb}`,
+      videoId: "3Kq1MIfTWCE" // CyberSec
     },
   ];
+
+  const handleCourseClick = (course) => {
+    navigate('/course-detail', { state: { course } });
+  };
+
   return (
     <>
       <Navbar />
@@ -109,36 +122,36 @@ const Courses = () => {
       </div>
 
 
-{/* filter needed */}
-<div className=" flex flex-row gap-3 mx-50 ">
-  
+      {/* filter needed */}
+      <div className=" flex flex-row gap-3 mx-50 ">
 
-  <button className="px-4 py-2 rounded-full bg-blue-600 text-white border border-blue-600">
-    All
-  </button>
 
-  <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
-    Web Development
-  </button>
+        <button className="px-4 py-2 rounded-full bg-blue-600 text-white border border-blue-600">
+          All
+        </button>
 
-  <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
-    Data Science
-  </button>
+        <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Web Development
+        </button>
 
-  <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
-    UI/UX
-  </button>
+        <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Data Science
+        </button>
 
-  <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
-    AI
-  </button>
+        <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          UI/UX
+        </button>
 
-  <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
-    Business
-  </button>
-</div>
+        <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          AI
+        </button>
 
-{/* course card */}
+        <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
+          Business
+        </button>
+      </div>
+
+      {/* course card */}
 
       <div className="max-w-6xl mx-auto py-10">
         <h1 className="text-3xl font-bold mb-6 text-blue-500 text-center">Explore Courses</h1>
@@ -147,7 +160,8 @@ const Courses = () => {
           {courseCard.map((course, i) => (
             <div
               key={i}
-              className="flex   gap-4 bg-white rounded-2xl shadow-md p-3 hover:shadow-xl transition"
+              onClick={() => handleCourseClick(course)}
+              className="flex gap-4 bg-white rounded-2xl shadow-md p-3 hover:shadow-xl transition cursor-pointer hover:scale-[1.02] duration-200"
             >
               <img
                 src={course.img}
@@ -175,109 +189,109 @@ const Courses = () => {
 
       {/* instructor */}
 
-          <div className="min-h-screen ">
-              <div className="text-center my-10">
-                <h1 className="text-4xl text-blue-500 font-bold">Meet Our Team</h1>
-                <p className="my-10 text-gray-600">
-                  Passionate educators and innovators dedicated to transforming the
-                  future of online learning
-                </p>
-              </div>
-              <div className=" grid grid-cols-4 gap-6 mx-10 my-20">
-                    <div className="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col  items-center gap-6 w-full max-w-xl hover:scale-105 duration-700">
-                <img
-                  src={me}
-                  alt="profile"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
-                />
-      
-                <div>
-                  <h2 className="text-xl font-semibold text-blue-500">Ashkar S</h2>
-      
-                  <a href="#" className="text-xl ">
-                   Web Development
-                  </a>
-      <hr className="text-gray-400" />
-                  <p className="text-gray-500 text-lg my-2">
-                   1 Courses  2+Years
-                  </p>
-                </div>
-              </div>
-               <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
-                <img
-                  src={two}
-                  alt="profile"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
-                />
-      
-                <div>
-                  <h2 className="text-xl font-semibold  text-blue-500">gwen</h2>
-      
-                  <a href="#" className=" text-xl">
-                  Data Science
-                  </a>
-      <hr className="text-gray-400" />
-      
-                  <p className="text-gray-500 text-lg mt-1">
-                   1 Courses 2+ Years
-                  </p>
-                </div>
-              </div>
-               <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
-                <img
-                  src={three}
-                  alt="profile"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
-                />
-      
-                <div>
-                  <h2 className="text-xl font-semibold text-blue-500">miles</h2>
-      
-                  <a href="#" className="  text-xl">
-                   UIUX
-                  </a>
-      <hr className="text-gray-400" />
-      
-                  <p className="text-gray-500 text-lg mt-1">
-                  1 Courses 3+ Years
-                  </p>
-                </div>
-              </div>
-               <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
-                <img
-                  src={four}
-                  alt="profile"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
-                />
-      
-                <div>
-                  <h2 className="text-xl font-semibold text-blue-500">mary</h2>
-      
-                  <a href="#" className=" text-xl">
-                   Python
-                  </a>
-      <hr className="text-gray-400" />
+      <div className="min-h-screen ">
+        <div className="text-center my-10">
+          <h1 className="text-4xl text-blue-500 font-bold">Meet Our Team</h1>
+          <p className="my-10 text-gray-600">
+            Passionate educators and innovators dedicated to transforming the
+            future of online learning
+          </p>
+        </div>
+        <div className=" grid grid-cols-4 gap-6 mx-10 my-20">
+          <div className="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col  items-center gap-6 w-full max-w-xl hover:scale-105 duration-700">
+            <img
+              src={me}
+              alt="profile"
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
+            />
 
-      
-                  <p className="text-gray-500 text-lg mt-1">
-                  1 Courses 1+ Years
-                  </p>
-                </div>
-              </div>
-              </div>
-              <div className="flex justify-center">
-                <Link to={'/instructorCard'}>
-                  <button className="border mx-6 p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500">
-          View Our Team
-        </button>
-                </Link>
-               
-              </div>
-            
-      
-            
+            <div>
+              <h2 className="text-xl font-semibold text-blue-500">Ashkar S</h2>
+
+              <a href="#" className="text-xl ">
+                Web Development
+              </a>
+              <hr className="text-gray-400" />
+              <p className="text-gray-500 text-lg my-2">
+                1 Courses  2+Years
+              </p>
             </div>
-            <Footer />
+          </div>
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+            <img
+              src={two}
+              alt="profile"
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
+            />
+
+            <div>
+              <h2 className="text-xl font-semibold  text-blue-500">gwen</h2>
+
+              <a href="#" className=" text-xl">
+                Data Science
+              </a>
+              <hr className="text-gray-400" />
+
+              <p className="text-gray-500 text-lg mt-1">
+                1 Courses 2+ Years
+              </p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+            <img
+              src={three}
+              alt="profile"
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
+            />
+
+            <div>
+              <h2 className="text-xl font-semibold text-blue-500">miles</h2>
+
+              <a href="#" className="  text-xl">
+                UIUX
+              </a>
+              <hr className="text-gray-400" />
+
+              <p className="text-gray-500 text-lg mt-1">
+                1 Courses 3+ Years
+              </p>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+            <img
+              src={four}
+              alt="profile"
+              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
+            />
+
+            <div>
+              <h2 className="text-xl font-semibold text-blue-500">mary</h2>
+
+              <a href="#" className=" text-xl">
+                Python
+              </a>
+              <hr className="text-gray-400" />
+
+
+              <p className="text-gray-500 text-lg mt-1">
+                1 Courses 1+ Years
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <Link to={'/instructorCard'}>
+            <button className="border mx-6 p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500">
+              View Our Team
+            </button>
+          </Link>
+
+        </div>
+
+
+
+      </div>
+      <Footer />
     </>
   );
 };
