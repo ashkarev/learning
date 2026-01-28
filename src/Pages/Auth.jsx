@@ -65,7 +65,7 @@ const Auth = ({ insideRegister }) => {
 
         try {
           const decoded = jwtDecode(apires.data.token);
-          if (decoded.role && decoded.role.toLowerCase() === "admin") {
+          if (decoded.userType  && decoded.userType.toLowerCase() === "admin") {
             navigate("/admin");
           } else {
             navigate("/");

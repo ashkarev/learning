@@ -58,9 +58,9 @@ const Users = () => {
                         {users.length > 0 ? (
                             users.map((user, index) => (
                                 <tr key={user._id || index} className="hover:bg-gray-50 transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{renderCell(user.username)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{renderCell(user.userName)}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{renderCell(user.email)}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{renderCell(user.role)}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{renderCell(user.userType)}</td>
                                 </tr>
                             ))
                         ) : (

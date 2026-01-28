@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import web from "../assets/web.jpg";
 import py from "../assets/py.png";
 import ui from "../assets/ui.jpg";
-import ml from "../assets/web.jpg";
+import ml from "../assets/ml.jpg";
 import react from "../assets/react.jpg";
 import me from '../assets/me.jpg';
 import two from '../assets/two.jpg'
@@ -123,7 +123,7 @@ const Courses = () => {
 
 
       {/* filter needed */}
-      <div className=" flex flex-row gap-3 mx-50 ">
+      {/* <div className=" flex flex-row gap-3 mx-50 ">
 
 
         <button className="px-4 py-2 rounded-full bg-blue-600 text-white border border-blue-600">
@@ -149,7 +149,7 @@ const Courses = () => {
         <button className="px-4 py-2 rounded-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-100">
           Business
         </button>
-      </div>
+      </div> */}
 
       {/* course card */}
 

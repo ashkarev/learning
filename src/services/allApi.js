@@ -46,8 +46,8 @@ export const deleteApplicationApi = async (id, reqHeader) => {
   return await axiosConfig("delete", `${baseUrl}/${id}/deleteApplication`, {}, reqHeader);
 };
 
-export const addApplicationApi = async (reqBody, reqHeader) => {
-  return await axiosConfig("post", `${baseUrl}/addApplication`, reqBody, reqHeader);
+export const applyJobApi = async (reqBody, reqHeader) => {
+  return await axiosConfig("post", `${baseUrl}/applyJob`, reqBody, reqHeader);
 };
 
 // Course Management

@@ -1,6 +1,10 @@
 import { Card } from 'flowbite-react'
 import course from '../assets/course.jpg'
 import { Link } from 'react-router-dom'
+import web from "../assets/web.jpg";
+import ui from "../assets/ui.jpg";
+import ml from "../assets/ml.jpg";
+
 
 
 const CourseCard = () => {
@@ -14,9 +18,9 @@ const CourseCard = () => {
  <div className='grid grid-cols-3 my-10 mx-20 '>
         <div className=''>
         <Card
-      className="max-w-sm bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
+      className="max-w-sm h-100 bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
       imgAlt="Meaningful alt text for an image that is not purely decorative"
-      imgSrc={course}
+      imgSrc={web}
     >
       <h5 className="text-2xl font-bold tracking-tight ">
         Web Development Bootcamp
@@ -28,29 +32,29 @@ const CourseCard = () => {
         </div>
           <div className=''>
         <Card
-      className="max-w-sm bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
+      className="max-w-sm h-100 bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
       imgAlt="Meaningful alt text for an image that is not purely decorative"
-      imgSrc={course}
+      imgSrc={ml}
     >
       <h5 className="text-2xl font-bold tracking-tight ">
-        Web Development Bootcamp
+     Data Science & Machine Learning A-Z
       </h5>
       <p className="font-normal text-gray-500">
-      Master HTML, CSS, JavaScript, and React to build modern web applications from scratch.
+     Advaned  with Powerbi and all
       </p>
     </Card>
         </div>
           <div className=''>
         <Card
-      className="max-w-sm bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
+      className="max-w-sm h-100 bg-white dark:bg-white dark:border-gray-200  hover:scale-105 transition duration-200"
       imgAlt="Meaningful alt text for an image that is not purely decorative"
-      imgSrc={course}
+      imgSrc={ui}
     >
       <h5 className="text-2xl font-bold tracking-tight ">
-        Web Development Bootcamp
+      UI/UX Design Masterclass
       </h5>
       <p className="font-normal text-gray-500">
-      Master HTML, CSS, JavaScript, and React to build modern web applications from scratch.
+      explore the various design skills
       </p>
     </Card>
         </div>
