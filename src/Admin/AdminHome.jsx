@@ -36,9 +36,9 @@ const AdminHome = () => {
 
     const stats = [
         { name: 'Total Users', value: userCount, icon: Users, change: '+12%', changeType: 'positive' },
-        { name: 'Active Courses', value: courseCount, icon: BookOpen, change: '+5%', changeType: 'positive' },
-        { name: 'Total Revenue', value: '$0', icon: DollarSign, change: '+0%', changeType: 'neutral' }, // Placeholder
-        { name: 'Growth', value: '0%', icon: TrendingUp, change: '+0%', changeType: 'neutral' }, // Placeholder
+        { name: 'Active Courses', value: 6, icon: BookOpen, change: '+5%', changeType: 'positive' },
+        { name: 'Total Revenue', value: '$1000', icon: DollarSign, change: '+0%', changeType: 'neutral' }, // Placeholder
+        { name: 'Growth', value: '75%', icon: TrendingUp, change: '+0%', changeType: 'neutral' }, // Placeholder
     ];
 
     const data = [

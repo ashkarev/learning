@@ -23,7 +23,7 @@ const Courses = () => {
   const courseCard = [
     {
       title: "Data Science & Machine Learning A-Z",
-      teacher: "may",
+      teacher: "nehab",
       hours: "36 hours",
       price: "₹ 100",
       img: `${ml}`,
@@ -31,7 +31,7 @@ const Courses = () => {
     },
     {
       title: "UI/UX Design Masterclass",
-      teacher: "Emma ",
+      teacher: "sidarth ",
       hours: "24 hours",
       price: "₹ 100",
       img: `${ui}`,
@@ -39,7 +39,7 @@ const Courses = () => {
     },
     {
       title: "React & Next.js — The Complete Guide",
-      teacher: "Peter",
+      teacher: "ajay",
       hours: "42 hours",
       price: "₹ 100",
       img: `${react}`,

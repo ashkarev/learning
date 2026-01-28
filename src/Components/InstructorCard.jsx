@@ -19,11 +19,11 @@ const InstructorCard = () => {
 const instructors = [
   {
     id: 1,
-    name: "May",
+    name: "Nehab",
     role: "Data Science Instructor",
     image: `${may}`,
     about:
-      "May is a passionate Data Science mentor with 7+ years of experience working on real-world machine learning projects and analytics solutions. She focuses on helping students understand concepts in a simple, practical way.",
+      "Nehab is a passionate Data Science mentor with 7+ years of experience working on real-world machine learning projects and analytics solutions. She focuses on helping students understand concepts in a simple, practical way.",
     experience:
       "I believe data science should be learned through real problems, not just theory.",
     skills: ["Python", "Machine Learning", "Deep Learning"],
@@ -49,11 +49,11 @@ const instructors = [
 
   {
     id: 3,
-    name: "Emma",
+    name: "sidharth",
     role: "UI/UX Design Mentor",
     image: `${emma}`,
     about:
-      "Emma is a creative UI/UX mentor with 6+ years in product design, specializing in user-centered design, wireframing, and interactive prototyping.",
+      "sidharth is a creative UI/UX mentor with 6+ years in product design, specializing in user-centered design, wireframing, and interactive prototyping.",
     experience:
       "Good design is invisible — users should feel the experience, not notice the interface.",
     skills: ["Figma", "Wireframing", "Prototyping", "Design Systems"],
@@ -66,11 +66,11 @@ const instructors = [
 
   {
     id: 4,
-    name: "MJ",
+    name: "Akhil",
     role: "Python Programming Instructor",
     image: `${mj}`,
     about:
-      "MJ is a Python mentor who focuses on helping students build a solid foundation in programming, problem solving, and automation through real-world examples.",
+      "he is a Python mentor who focuses on helping students build a solid foundation in programming, problem solving, and automation through real-world examples.",
     experience:
       "Programming becomes powerful when you learn to apply it to daily problems.",
     skills: ["Python", "OOP", "Automation", "Flask"],
@@ -83,11 +83,11 @@ const instructors = [
 
   {
     id: 5,
-    name: "Rhino",
+    name: "Justin",
     role: "Cybersecurity Specialist Instructor",
     image: `${rhino}`,
     about:
-      "Rhino is a cybersecurity mentor focused on ethical hacking, system security, and network defense through hands-on learning and simulation-based training.",
+      "he is a cybersecurity mentor focused on ethical hacking, system security, and network defense through hands-on learning and simulation-based training.",
     experience: "Security is not just a skill — it is a continuous mindset.",
     skills: ["Ethical Hacking", "Network Security", "SOC Analysis"],
     teaches: ["Ethical Hacking Basics", "Network Security", "Cyber Defense"],
@@ -95,11 +95,11 @@ const instructors = [
 
  {
   id: 6,
-  name: "Peter",
+  name: "Ajay",
   role: "React & Next.js Core Instructor",
   image: `${peter}`,
   about:
-    "Daniel is a frontend engineer who specializes in building modern, high-performance web applications using React and Next.js. He focuses on writing clean, scalable code and teaching students how real-world frontend architecture works.",
+    "he is a frontend engineer who specializes in building modern, high-performance web applications using React and Next.js. He focuses on writing clean, scalable code and teaching students how real-world frontend architecture works.",
   experience:
     "Great frontend development is about clarity, structure, and thinking in components.",
   skills: ["React", "Next.js", "JavaScript", "Frontend Architecture"],

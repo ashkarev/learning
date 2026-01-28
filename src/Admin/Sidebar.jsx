@@ -9,7 +9,7 @@ const Sidebar = () => {
     const navigation = [
         { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
         { name: 'Users', href: 'users', icon: Users },
-        { name: 'Courses', href: 'courses', icon: BookOpen },
+        // { name: 'Courses', href: 'courses', icon: BookOpen },
         { name: 'Careers', href: 'careers', icon: Briefcase },
         { name: 'Applications', href: 'applications', icon: Briefcase }, // Reuse Briefcase or use FileText if imported
     ];
@@ -47,7 +47,7 @@ const Sidebar = () => {
             <div className="p-4 border-t border-gray-200">
                 <Link to={'/'} className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-red-50 hover:text-red-600 transition-colors duration-150">
                     <LogOut className="mr-3 h-5 w-5" />
-                    Logout
+                 Back to Home
                 </Link>
             </div>
         </div>
