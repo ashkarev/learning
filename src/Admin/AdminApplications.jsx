@@ -9,19 +9,28 @@ const AdminApplications = () => {
 
     const getApplications = async () => {
         const token = localStorage.getItem("token");
-        if (token) {
-            const reqHeader = {
-                "Authorization": `Bearer ${token}`
-            };
-            try {
-                const apiRes = await getAllApplicationsApi(reqHeader);
-                if (apiRes.status === 200) {
-                    setApplications(apiRes.data);
-                }
-            } catch (error) {
-                console.error(error);
-                toast.error("Something went wrong while fetching applications");
+        if (!token) {
+            toast.warning("Please login first");
+            return;
+        }
+
+        const reqHeader = {
+            "Authorization": `Bearer ${token}`
+        };
+
+        try {
+            const apiRes = await getAllApplicationsApi(reqHeader);
+            if (apiRes.status === 200) {
+                // Handle different response structures
+                const appsData = apiRes.data.applications || apiRes.data.allApplications || apiRes.data || [];
+                setApplications(Array.isArray(appsData) ? appsData : []);
+            } else {
+                setApplications([]);
             }
+        } catch (error) {
+            console.error("Error fetching applications:", error);
+            toast.error(error.response?.data?.message || "Failed to fetch applications");
+            setApplications([]);
         }
     }
 

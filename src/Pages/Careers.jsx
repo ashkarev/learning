@@ -31,21 +31,47 @@ const Careers = () => {
         }
     };
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setApplicationData({
+            fullName: '',
+            email: '',
+            phone: '',
+            resume: null
+        });
+        setSelectedJob(null);
+    };
+
+
     const handleApply = (job) => {
+        setSelectedJob(job);
         const userStr = localStorage.getItem("user");
         if (userStr) {
             try {
                 const user = JSON.parse(userStr);
                 setApplicationData({
-                    ...applicationData,
                     fullName: user.userName || "",
-                    email: user.email || ""
+                    email: user.email || "",
+                    phone: '',
+                    resume: null
                 });
             } catch (e) {
                 console.error(e);
+                setApplicationData({
+                    fullName: '',
+                    email: '',
+                    phone: '',
+                    resume: null
+                });
             }
+        } else {
+            setApplicationData({
+                fullName: '',
+                email: '',
+                phone: '',
+                resume: null
+            });
         }
-        setSelectedJob(job);
         setIsModalOpen(true);
     };
 
@@ -76,8 +102,7 @@ const Careers = () => {
             const result = await applyJobApi(formData, reqHeader);
             if (result.status === 200 || result.status === 201) {
                 toast.success("Application Submitted!");
-                setIsModalOpen(false);
-                setApplicationData({ fullName: '', email: '', phone: '', resume: null });
+                handleCloseModal();
             } else {
                 toast.error(result.response?.data?.message || "Submission failed");
             }
@@ -133,11 +158,11 @@ const Careers = () => {
             </main>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-600 bg-opacity-50 p-4">
                     <div className="bg-white rounded-lg shadow-xl w-full max-w-lg overflow-hidden">
                         <div className="px-6 py-4 border-b flex justify-between items-center bg-gray-50">
                             <h3 className="font-bold text-gray-800">Apply for {selectedJob?.jobRole}</h3>
-                            <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                            <button onClick={handleCloseModal} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             <div>
@@ -197,7 +222,7 @@ const Careers = () => {
                             </div>
                             <div className="pt-4 flex gap-3">
                                 <button type="submit" className="flex-1 bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700">Submit Application</button>
-                                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 bg-gray-100 text-gray-700 font-bold py-2 rounded hover:bg-gray-200">Cancel</button>
+                                <button type="button" onClick={handleCloseModal} className="flex-1 bg-gray-100 text-gray-700 font-bold py-2 rounded hover:bg-gray-200">Cancel</button>
                             </div>
                         </form>
                     </div>
