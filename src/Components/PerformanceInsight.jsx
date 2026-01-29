@@ -1,13 +1,13 @@
 import React from "react"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/Components/ui/card"
 import { Zap, BookOpen, Clock, Target } from "lucide-react"
 
 const PerformanceInsights = () => {
   return (
-   
+
     <Card className="rounded-2xl  border-0 my-10 mx-20">
-        
-    
+
+
 
       {/* 4 Cards in One Row */}
       <CardContent className="grid grid-cols-4 gap-6 p-10 ">
