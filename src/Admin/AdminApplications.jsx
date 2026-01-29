@@ -21,8 +21,7 @@ const AdminApplications = () => {
         try {
             const apiRes = await getAllApplicationsApi(reqHeader);
             if (apiRes.status === 200) {
-                // Handle different response structures
-                const appsData = apiRes.data.applications || apiRes.data.allApplications || apiRes.data || [];
+                const appsData = apiRes.data.applications || [];
                 setApplications(Array.isArray(appsData) ? appsData : []);
             } else {
                 setApplications([]);
