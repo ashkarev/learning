@@ -66,7 +66,7 @@ const AdminApplications = () => {
                 <h2 className="text-2xl font-bold text-gray-800">Job Applications</h2>
             </div>
 
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden border">
+            <div className="bg-white shadow-sm rounded-lg overflow-x-auto border">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">
                         <tr>

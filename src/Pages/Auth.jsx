@@ -65,7 +65,7 @@ const Auth = ({ insideRegister }) => {
 
         try {
           const decoded = jwtDecode(apires.data.token);
-          if (decoded.userType  && decoded.userType.toLowerCase() === "admin") {
+          if (decoded.userType && decoded.userType.toLowerCase() === "admin") {
             navigate("/admin");
           } else {
             navigate("/");
@@ -124,13 +124,13 @@ const Auth = ({ insideRegister }) => {
 
   return (
     <>
-      <section className="min-h-screen bg-sky-50  justify-center items-center grid grid-cols-2">
-        <h1 className=" text-6xl text-blue-500 font-bold text-center ">
+      <section className="flex flex-col lg:flex-row min-h-screen bg-sky-50 justify-center items-center p-4">
+        <h1 className="text-4xl md:text-6xl text-blue-500 font-bold text-center mb-8 lg:mb-0 lg:mr-20">
           Blink Tutors
         </h1>
-        <div className="bg-white border border-gray-200 shadow-xl rounded-xl p-10  w-[450px]">
-          <div className="flex flex-col items-center  ">
-            <h1 className="text-3xl text-blue-500 font-bold my-2">
+        <div className="bg-white border border-gray-200 shadow-xl rounded-xl p-6 md:p-10 w-full max-w-[450px]">
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl md:text-3xl text-blue-500 font-bold my-2">
               {insideRegister ? "Register" : "Login"}
             </h1>
             {insideRegister && (
@@ -140,7 +140,7 @@ const Auth = ({ insideRegister }) => {
                 }
                 type="text"
                 placeholder="Enter UserName"
-                className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
+                className="w-full p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
               />
             )}
 
@@ -150,7 +150,7 @@ const Auth = ({ insideRegister }) => {
               }
               type="text"
               placeholder="Enter Your Email"
-              className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
+              className="w-full p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
             />
             <input
               onChange={(e) =>
@@ -158,20 +158,20 @@ const Auth = ({ insideRegister }) => {
               }
               type="password"
               placeholder="password"
-              className="w-100 p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
+              className="w-full p-2 rounded-md hover:border hover:border-blue-500 my-2 border-gray-200"
             />
 
             {insideRegister ? (
               <button
                 onClick={onRegisterClick}
-                className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
+                className="border my-8 w-full   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
               >
                 Register
               </button>
             ) : (
               <button
                 onClick={onLoginClick}
-                className="border my-8 w-100   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
+                className="border my-8 w-full   p-2  rounded-md bg-blue-800 text-white hover:text-white hover:bg-blue-500"
               >
                 Login
               </button>
@@ -185,7 +185,7 @@ const Auth = ({ insideRegister }) => {
               shape="circle"
               size="large"
             ></GoogleLogin>
-            <hr className="w-100 my-2" />
+            <hr className="w-full my-2" />
 
             <span className="my-2">Forget Password ?</span>
 

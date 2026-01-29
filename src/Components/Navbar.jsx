@@ -11,10 +11,6 @@ import { Dropdown } from "flowbite-react";
 const Navbar = () => {
   const { removeToken, token } = useContext(authContext)
   const navigate = useNavigate();
-  // Wait, useNavigate is not imported in original file! It was used in onLoggedOut but not imported?
-  // Original file line 3: import { Link } from "react-router-dom";
-  // onLoggedOut calls navigate('/') but navigate is not defined?
-  // Let's check imports.
 
 
 

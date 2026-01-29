@@ -119,7 +119,7 @@ const AdminCareers = () => {
                 </button>
             </div>
 
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden border">
+            <div className="bg-white shadow-sm rounded-lg overflow-x-auto border">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">
                         <tr>
@@ -158,12 +158,12 @@ const AdminCareers = () => {
 
             {/* Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
-                    <div className="relative p-5 border w-[500px] shadow-lg rounded-md bg-white">
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 p-4">
+                    <div className="relative p-5 border w-full max-w-lg shadow-lg rounded-md bg-white">
                         <div className="mt-3">
                             <h3 className="text-lg leading-6 font-medium text-gray-900 text-center mb-4">Add New Job Posting</h3>
                             <form onSubmit={handleAddJob} className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <div className="flex justify-between items-center mb-1">
                                             <label className="block text-sm font-medium text-gray-700">Job ID</label>

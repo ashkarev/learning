@@ -117,24 +117,24 @@ const Careers = () => {
             <Navbar />
             <main className="grow bg-white py-12 mt-10">
                 <div className="container mx-auto px-4 max-w-5xl">
-                    <div className="mb-12 border-b pb-8  text-center">
-                        <h1 className="text-5xl font-bold text-blue-500 mb-2">Careers</h1>
-                        <p className="text-gray-600 text-2xl">Explore open positions and join our team.</p>
+                    <div className="mb-8 md:mb-12 border-b pb-6 md:pb-8 text-center">
+                        <h1 className="text-3xl md:text-5xl font-bold text-blue-500 mb-2">Careers</h1>
+                        <p className="text-lg md:text-2xl text-gray-600">Explore open positions and join our team.</p>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
                         {jobs.length > 0 ? (
                             jobs.map((job) => (
-                                <div key={job._id || job.jobId} className="border rounded-lg p-6 hover:border-blue-500 transition-colors bg-slate-50">
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div key={job._id || job.jobId} className="border rounded-lg p-4 md:p-6 hover:border-blue-500 transition-colors bg-slate-50">
+                                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                                         <div className="flex-1">
-                                            <h3 className="text-xl font-bold text-gray-800">{job.jobRole}</h3>
-                                            <div className="mt-2 flex flex-wrap gap-4 text-sm text-gray-500 uppercase tracking-tight font-medium">
+                                            <h3 className="text-lg md:text-xl font-bold text-gray-800">{job.jobRole}</h3>
+                                            <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs md:text-sm text-gray-500 uppercase tracking-tight font-medium">
                                                 <span>{job.experience}</span>
                                                 <span className="text-emerald-600 font-bold">{job.salary}</span>
                                                 <span className="text-red-400">Deadline: {job.lastDate}</span>
                                             </div>
-                                            <p className="mt-4 text-gray-600 line-clamp-2 text-sm leading-relaxed">
+                                            <p className="mt-4 text-gray-600 line-clamp-2 text-xs md:text-sm leading-relaxed">
                                                 {job.jobDesc}
                                             </p>
                                         </div>
@@ -170,18 +170,18 @@ const Careers = () => {
                                 <input
                                     type="text"
                                     required
-                                    className="w-full border rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                                    className="w-full border rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:outline-none"
                                     value={applicationData.fullName}
                                     onChange={(e) => setApplicationData({ ...applicationData, fullName: e.target.value })}
                                 />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                                     <input
                                         type="email"
                                         required
-                                        className="w-full border rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                                        className="w-full border rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:outline-none"
                                         value={applicationData.email}
                                         onChange={(e) => setApplicationData({ ...applicationData, email: e.target.value })}
                                     />
@@ -191,7 +191,7 @@ const Careers = () => {
                                     <input
                                         type="tel"
                                         required
-                                        className="w-full border rounded-md px-3 py-2 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                                        className="w-full border rounded-md px-3 py-2 text-sm focus:ring-1 focus:ring-blue-500 focus:outline-none"
                                         value={applicationData.phone}
                                         onChange={(e) => setApplicationData({ ...applicationData, phone: e.target.value })}
                                     />

@@ -105,7 +105,7 @@ const Courses = () => {
                 </button>
             </div>
 
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div className="bg-white shadow-sm rounded-lg overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">
                         <tr>

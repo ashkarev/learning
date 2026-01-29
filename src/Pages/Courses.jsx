@@ -80,39 +80,41 @@ const Courses = () => {
       <Navbar />
 
       {/* hero */}
-      <div>
-        <div className="flex  justify-center  ">
+      <div className="px-4">
+        <div className="flex justify-center">
           <div
             style={{ backgroundImage: `url(${courseBg})` }}
-            className=" my-40 bg-cover bg-blend-soft-light bg-right  border-gray-500 shadow-2xl h-100 rounded-2xl w-[1000px]  "
+            className="my-10 md:my-40 bg-cover bg-blend-soft-light bg-right border-gray-500 shadow-2xl h-auto md:h-100 rounded-2xl w-full max-w-[1000px] p-6 md:p-0"
           >
-            <div className="p-2 border border-gray-300 rounded-3xl bg-blue-500 w-50 my-10 mx-10 text-white">
-              <h1 className="text-center">Featured Course</h1>
+            <div className="inline-block p-2 border border-gray-300 rounded-3xl bg-blue-500 my-6 md:my-10 md:mx-10 text-white">
+              <h1 className="text-center px-4">Featured Course</h1>
             </div>
-            <div className="mx-10">
-              <h1 className="text-4xl text-blue-500 font-bold text-shadow-2xl">
+            <div className="md:mx-10 pb-10 md:pb-0">
+              <h1 className="text-3xl md:text-4xl text-blue-500 font-bold text-shadow-2xl">
                 Complete Web Development Bootcamp 2024
               </h1>
-              <p className="my-5  text-gray-900">
+              <p className="my-5 text-gray-900">
                 Master full-stack development from beginner to advanced with
                 hands-on projects
               </p>
 
-              <div className="flex  gap-6 border w-135 p-2 rounded-3xl border-gray-100 bg-sky-100 ">
-                <h2 className="flex gap-2 ">
-                  <LiaChalkboardTeacherSolid className="text-3xl bg-blue-400 rounded-2xl text-white p-1" />{" "}
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 md:gap-6 border w-full md:w-fit p-4 md:p-2 rounded-2xl md:rounded-3xl border-gray-100 bg-sky-100 ">
+                <h2 className="flex gap-2 items-center">
+                  <LiaChalkboardTeacherSolid className="text-3xl bg-blue-400 rounded-2xl text-white p-1" />
                   Ashkar S
                 </h2>
-                <span> ⁊ 48 hours</span>
-                <span> ₹ 100</span>
-                <FaStar className="text-amber-300 text-xl" />
-                <FaStar className="text-amber-300 text-xl" />
-                <FaStar className="text-amber-300 text-xl" />
-                <FaStar className="text-amber-300 text-xl" />
-                <FaStar className="text-amber-300 text-xl" />
+                <span className="flex items-center"> ⁊ 48 hours</span>
+                <span className="flex items-center"> ₹ 100</span>
+                <div className="flex gap-1 items-center">
+                  <FaStar className="text-amber-300 text-xl" />
+                  <FaStar className="text-amber-300 text-xl" />
+                  <FaStar className="text-amber-300 text-xl" />
+                  <FaStar className="text-amber-300 text-xl" />
+                  <FaStar className="text-amber-300 text-xl" />
+                </div>
               </div>
               <Link to={"/register"}>
-                <button className="border my-10 p-2  rounded-lg bg-blue-800 text-white hover:text-white hover:bg-blue-500">
+                <button className="border my-8 md:my-10 p-2 px-6 rounded-lg bg-blue-800 text-white hover:bg-blue-500 transition-colors w-full md:w-auto">
                   Enroll Now
                 </button>
               </Link>
@@ -197,85 +199,57 @@ const Courses = () => {
             future of online learning
           </p>
         </div>
-        <div className=" grid grid-cols-4 gap-6 mx-10 my-20">
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col  items-center gap-6 w-full max-w-xl hover:scale-105 duration-700">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 md:mx-10 my-10 md:my-20">
+          <div className="bg-white rounded-2xl shadow-lg p-6 text-center flex flex-col items-center gap-6 w-full hover:scale-105 transition-transform duration-500">
             <img
               src={me}
               alt="profile"
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
             />
-
-            <div>
+            <div className="w-full">
               <h2 className="text-xl font-semibold text-blue-500">Ashkar S</h2>
-
-              <a href="#" className="text-xl ">
-                Web Development
-              </a>
-              <hr className="text-gray-400" />
-              <p className="text-gray-500 text-lg my-2">
-                1 Courses  2+Years
-              </p>
+              <p className="text-lg">Web Development</p>
+              <hr className="text-gray-400 my-2" />
+              <p className="text-gray-500 text-base">1 Courses ⁊ 2+Years</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full text-center hover:scale-105 transition-transform duration-500">
             <img
               src={two}
               alt="profile"
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
             />
-
-            <div>
-              <h2 className="text-xl font-semibold  text-blue-500">gwen</h2>
-
-              <a href="#" className=" text-xl">
-                Data Science
-              </a>
-              <hr className="text-gray-400" />
-
-              <p className="text-gray-500 text-lg mt-1">
-                1 Courses 2+ Years
-              </p>
+            <div className="w-full">
+              <h2 className="text-xl font-semibold text-blue-500">gwen</h2>
+              <p className="text-lg">Data Science</p>
+              <hr className="text-gray-400 my-2" />
+              <p className="text-gray-500 text-base">1 Courses ⁊ 2+ Years</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full text-center hover:scale-105 transition-transform duration-500">
             <img
               src={three}
               alt="profile"
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
             />
-
-            <div>
+            <div className="w-full">
               <h2 className="text-xl font-semibold text-blue-500">miles</h2>
-
-              <a href="#" className="  text-xl">
-                UIUX
-              </a>
-              <hr className="text-gray-400" />
-
-              <p className="text-gray-500 text-lg mt-1">
-                1 Courses 3+ Years
-              </p>
+              <p className="text-lg">UIUX</p>
+              <hr className="text-gray-400 my-2" />
+              <p className="text-gray-500 text-base">1 Courses ⁊ 3+ Years</p>
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full max-w-xl text-center hover:scale-105 duration-700">
+          <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center gap-6 w-full text-center hover:scale-105 transition-transform duration-500">
             <img
               src={four}
               alt="profile"
               className="w-24 h-24 rounded-full object-cover border-4 border-white shadow"
             />
-
-            <div>
+            <div className="w-full">
               <h2 className="text-xl font-semibold text-blue-500">mary</h2>
-
-              <a href="#" className=" text-xl">
-                Python
-              </a>
-              <hr className="text-gray-400" />
-
-
-              <p className="text-gray-500 text-lg mt-1">
-                1 Courses 1+ Years
-              </p>
+              <p className="text-lg">Python</p>
+              <hr className="text-gray-400 my-2" />
+              <p className="text-gray-500 text-base">1 Courses ⁊ 1+ Years</p>
             </div>
           </div>
         </div>

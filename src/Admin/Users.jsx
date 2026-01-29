@@ -45,7 +45,7 @@ const Users = () => {
     return (
         <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-6">User Management</h2>
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div className="bg-white shadow-sm rounded-lg overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-slate-50">
                         <tr>
